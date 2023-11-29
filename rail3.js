@@ -273,6 +273,26 @@ function displaySportsQuestion(question) {
   }
 }
 
+function calculateAveragePercentage() {
+  fetch(`${xanoApiBaseUrl}/sports_percentage/sports_id/${currentSportsQuestionId}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(records => {
+      let totalPercentage = 0;
+      records.forEach(record => {
+        totalPercentage += record.percentage;
+      });
+      const averagePercentage = records.length > 0 ? totalPercentage / records.length : 0;
+      console.log(`Average Percentage for sports_id ${currentSportsQuestionId}: ${averagePercentage.toFixed(2)}%`);
+      // Optionally, update this average percentage in the UI
+    })
+    .catch(error => console.error('Error fetching or calculating average percentage:', error));
+}
+
 document.getElementById('sports-submit').addEventListener('click', function() {
   const rangeInput = document.querySelector('[fs-cmsfilter-field="price"]');
   const sliderValue = parseInt(rangeInput.value, 10); // Ensure it's an integer
@@ -281,6 +301,7 @@ document.getElementById('sports-submit').addEventListener('click', function() {
     console.error('No current sports question ID is set');
     return; // Exit the function if we don't have a current sports question ID
   }
+  calculateAveragePercentage()
 
   // Create the data object to send
   const dataToSend = {
