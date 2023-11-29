@@ -1,11 +1,3 @@
-<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
-
-<!-- [Attributes by Finsweet] Range Slider -->
-<script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-rangeslider@1/rangeslider.js"></script>
-
-<!-- Finsweet Cookie Consent -->
-<script async src="https://cdn.jsdelivr.net/npm/@finsweet/cookie-consent@1/fs-cc.js" fs-cc-mode="informational"></script>
-<script>
 var typed = new Typed(".typing-text", {
   strings: [
         '<span class="dark-purple">NFL attendance</span>', 
@@ -253,7 +245,3 @@ document.addEventListener('DOMContentLoaded', (event) => {
     fetchRandomQuestionAndDisplay();
 
 });
-
-
-
-</script>
