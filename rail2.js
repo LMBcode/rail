@@ -239,6 +239,9 @@ function incrementOptionVote(questionId, optionNumber) {
     .catch(error => console.error('Error updating vote:', error));
 }
 
+let currentSportsQuestionId = null; // This variable will hold the current sports question ID
+
+
 function fetchRandomSportsQuestion() {
   fetch(`${xanoApiBaseUrl}/sports`)
     .then(response => {
@@ -255,15 +258,16 @@ function fetchRandomSportsQuestion() {
       }
       // Randomly select one question from the array
       const randomQuestion = data[Math.floor(Math.random() * data.length)];
+      currentSportsQuestionId = randomQuestion.id; // Store the ID
       displaySportsQuestion(randomQuestion);
     })
     .catch(error => console.error('Error fetching sports questions:', error));
 }
 
 function displaySportsQuestion(question) {
-  const sportQuestion = document.querySelector('#sports-question');
-  if (sportQuestion) {
-    sportQuestion.textContent = question.question;
+  const sportQuestionElement = document.querySelector('#sports-question');
+  if (sportQuestionElement) {
+    sportQuestionElement.textContent = question.question;
   } else {
     console.error('Sports question element not found on the page');
   }
@@ -273,12 +277,14 @@ document.getElementById('sports-submit').addEventListener('click', function() {
   const rangeInput = document.querySelector('[fs-cmsfilter-field="price"]');
   const sliderValue = parseInt(rangeInput.value, 10); // Ensure it's an integer
 
-  // Retrieve the sports question ID somehow; this is just a placeholder
-  const sportsQuestionId = getCurrentSportsQuestionId();
+  if (currentSportsQuestionId === null) {
+    console.error('No current sports question ID is set');
+    return; // Exit the function if we don't have a current sports question ID
+  }
 
   // Create the data object to send
   const dataToSend = {
-    sports_id: sportsQuestionId,
+    sports_id: currentSportsQuestionId,
     percentage: sliderValue
   };
 
@@ -287,7 +293,6 @@ document.getElementById('sports-submit').addEventListener('click', function() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // Include other headers like authorization if needed
     },
     body: JSON.stringify(dataToSend)
   })
@@ -299,11 +304,9 @@ document.getElementById('sports-submit').addEventListener('click', function() {
   })
   .then(newRecord => {
     console.log('New record added to sports_percentage', newRecord);
-    // Additional actions upon successful posting, like UI update
   })
   .catch(error => console.error('Error posting new percentage record:', error));
 });
-
 
 document.addEventListener('DOMContentLoaded', (event) => {
   getQuestionsAndDisplayPercentages();
