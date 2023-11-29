@@ -239,28 +239,45 @@ function incrementOptionVote(questionId, optionNumber) {
     .catch(error => console.error('Error updating vote:', error));
 }
 
-  function fetchRandomSportsQuestion() {
-    fetch(`${xanoApiBaseUrl}/sports`)
-      .then(response => response.json())
-      .then(data => {
-        // Randomly select one question from the array
-        const randomQuestion = data[Math.floor(Math.random() * data.length)];
-        displaySportsQuestion(randomQuestion);
-      })
-      .catch(error => console.error('Error fetching questions:', error));
-  }
-
-function displaySportsQuestion(question) {
-  const sportQuestion = document.querySelector('#sports-question')
-  sportQuestion.textContent = question.question;
+function fetchRandomSportsQuestion() {
+  fetch(`${xanoApiBaseUrl}/sports`)
+    .then(response => {
+      console.log(response); // Log the raw response
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data); // Log the data to see if it's what you expect
+      if (data.length === 0) {
+        throw new Error('No sports questions available');
+      }
+      // Randomly select one question from the array
+      const randomQuestion = data[Math.floor(Math.random() * data.length)];
+      displaySportsQuestion(randomQuestion);
+    })
+    .catch(error => console.error('Error fetching sports questions:', error));
 }
 
+function displaySportsQuestion(question) {
+  const sportQuestion = document.querySelector('#sports-question');
+  if (sportQuestion) {
+    sportQuestion.textContent = question.question;
+  } else {
+    console.error('Sports question element not found on the page');
+  }
+}
 
 document.getElementById('sports-submit').addEventListener('click', function() {
   const rangeInput = document.querySelector('[fs-cmsfilter-field="price"]');
-  const sliderValue = rangeInput.value;
-  console.log(sliderValue);
-  	
+  if (rangeInput) {
+    const sliderValue = rangeInput.value;
+    console.log(sliderValue);
+    // Add the rest of your submit logic here
+  } else {
+    console.error('Range input not found');
+  }
 });
 
 
