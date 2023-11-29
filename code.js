@@ -252,7 +252,7 @@ function incrementOptionVote(questionId, optionNumber) {
 
 function displaySportsQuestion(question) {
   const sportQuestion = document.querySelector('#sports-question')
-  sportsQuestion.textContent = question.question;
+  sportQuestion.textContent = question.question;
 }
 
 
