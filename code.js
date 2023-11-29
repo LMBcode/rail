@@ -280,6 +280,9 @@ document.getElementById('sports-submit').addEventListener('click', function() {
   }
 });
 
+document.querySelector('[fs-cmsfilter-field="price"]').addEventListener('input', function(e) {
+console.log(e.target.value);
+});
 
 document.addEventListener('DOMContentLoaded', (event) => {
   getQuestionsAndDisplayPercentages();
