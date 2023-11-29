@@ -271,13 +271,37 @@ function displaySportsQuestion(question) {
 
 document.getElementById('sports-submit').addEventListener('click', function() {
   const rangeInput = document.querySelector('[fs-cmsfilter-field="price"]');
-  if (rangeInput) {
-    const sliderValue = rangeInput.value;
-    console.log(sliderValue);
-    // Add the rest of your submit logic here
-  } else {
-    console.error('Range input not found');
-  }
+  const sliderValue = parseInt(rangeInput.value, 10); // Ensure it's an integer
+
+  // Retrieve the sports question ID somehow; this is just a placeholder
+  const sportsQuestionId = getCurrentSportsQuestionId();
+
+  // Create the data object to send
+  const dataToSend = {
+    sports_id: sportsQuestionId,
+    percentage: sliderValue
+  };
+
+  // Perform the POST request to add a new record
+  fetch(`${xanoApiBaseUrl}/sports_percentage`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // Include other headers like authorization if needed
+    },
+    body: JSON.stringify(dataToSend)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(newRecord => {
+    console.log('New record added to sports_percentage', newRecord);
+    // Additional actions upon successful posting, like UI update
+  })
+  .catch(error => console.error('Error posting new percentage record:', error));
 });
 
 
