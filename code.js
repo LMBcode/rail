@@ -239,9 +239,33 @@ function incrementOptionVote(questionId, optionNumber) {
     .catch(error => console.error('Error updating vote:', error));
 }
 
-       
+  function fetchRandomSportsQuestion() {
+    fetch(`${xanoApiBaseUrl}/sports`)
+      .then(response => response.json())
+      .then(data => {
+        // Randomly select one question from the array
+        const randomQuestion = data[Math.floor(Math.random() * data.length)];
+        displaySportsQuestion(randomQuestion);
+      })
+      .catch(error => console.error('Error fetching questions:', error));
+  }
+
+function displaySportsQuestion(question) {
+  const sportQuestion = document.querySelector('#sports-question')
+  sportsQuestion.textContent = question.question;
+}
+
+
+document.getElementById('sports-submit').addEventListener('click', function() {
+  const rangeInput = document.querySelector('[fs-cmsfilter-field="price"]');
+  const sliderValue = rangeInput.value;
+  console.log(sliderValue);
+  	
+});
+
+
 document.addEventListener('DOMContentLoaded', (event) => {
   getQuestionsAndDisplayPercentages();
-    fetchRandomQuestionAndDisplay();
-
+  fetchRandomQuestionAndDisplay();
+  fetchRandomSportsQuestion()
 });
