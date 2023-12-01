@@ -79,7 +79,7 @@ function displayQuestion(question) {
   const totalVotes = question.yes_votes + question.no_votes;
   const successResultText = question.result;
   const yesPercentage = totalVotes > 0 ? (question.yes_votes / totalVotes) * 100 : 0;
-  percentageResult.textContent = `${yesPercentage.toFixed(2)}%`;
+  percentageResult.textContent = `${yesPercentage.toFixed(1)}%`;
 	successResult.textContent = successResultText;
   // Select the buttons
   const yesButton = card.querySelector('.button-yes');
@@ -140,7 +140,7 @@ function noVoteHandler(question) {
     }
     
     const optionVotes = questionData[`option_${i}_votes`] || 0;
-    const percentage = totalVotes > 0 ? (optionVotes / totalVotes * 100).toFixed(2) : 		"0.00";
+    const percentage = totalVotes > 0 ? (optionVotes / totalVotes * 100).toFixed(1) : 		"0.00";
     
     console.log(`${optionText} - ${percentage}%`);
     const percentageLabel = document.createElement('div');
@@ -294,10 +294,10 @@ function calculateAveragePercentage() {
       });
 
       const averagePercentage = filteredRecords.length > 0 ? totalPercentage / filteredRecords.length : 0;
-      console.log(`Average Percentage for sports_id ${currentSportsQuestionId}: ${averagePercentage.toFixed(2)}%`);
+      console.log(`Average Percentage for sports_id ${currentSportsQuestionId}: ${averagePercentage.toFixed(1)}%`);
       // Optionally, update this average percentage in the UI
       const averagePercentageText = document.querySelector('#sports_percentage-text')
-      averagePercentageText.textContent = `${averagePercentage.toFixed(2)}%`
+      averagePercentageText.textContent = `${averagePercentage.toFixed(1)}%`
     })
     .catch(error => console.error('Error fetching or calculating average percentage:', error));
 }
