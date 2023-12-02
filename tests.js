@@ -457,7 +457,20 @@ var typed = new Typed(".typing-text", {
   
   document.addEventListener('DOMContentLoaded', (event) => {
     getQuestionsAndDisplayPercentages();
-    fetchRandomQuestionAndDisplay();
      fetchRandomSportsQuestion();
-    getYesOrNoEntertainmentQuestion();
+     chooseRandomFunction()
   });
+
+  function chooseRandomFunction() {
+    // Generate a random number (0 or 1)
+    var randomNumber = Math.floor(Math.random() * 2);
+
+    // Depending on the random number, call one of the functions
+    if (randomNumber === 0) {
+        fetchRandomQuestionAndDisplay();
+        document.querySelector('.card-form-entertainment').style.display = "none"
+    } else {
+        getYesOrNoEntertainmentQuestion();
+        document.querySelector('#card-form-options').style.display = "none"
+    }
+}
